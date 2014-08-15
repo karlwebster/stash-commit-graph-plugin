@@ -255,6 +255,27 @@
         return initials.slice(0, 2);
     };
 
+    CommitVM.prototype.getAuthorDisplayName = function() {
+        var displayName = this.author.name;
+        function getUserDetails(name) {
+            return $.ajax({
+                type: "GET",
+                url: AJS.contextPath() + "/rest/api/1.0/users?filter="+ name +"",
+                async: false
+            }).responseText;
+        };
+        var str = getUserDetails(this.author.name);
+        if(str.indexOf('displayName') != -1)
+        {
+             var n1 = str.indexOf('displayName":"') + 14;
+             var n2 = str.indexOf('","active');
+             var substr=str.substring(n1,n2);
+             displayName = substr;
+             console.log("Display Name Found: " + displayName);
+        }
+        console.log("Returned name: " + displayName);
+        return displayName;
+    }
     CommitVM.prototype.getAuthorColor = function() {
         var initials = this.getAuthorInitials();
         return this.authorColors[initials.hashCode() % this.authorColors.length];
