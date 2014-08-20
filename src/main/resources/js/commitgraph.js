@@ -95,7 +95,10 @@
         var ajaxCnt = this.branches.length - 1;
         for (var i = 0; i < this.branches.length; i++) {
             var branch = this.branches[i];
-            if (branch.displayId === 'master') {
+            
+            console.log("Branch: " + branch.displayId + " isDefault: " + branch.isDefault);
+
+            if ( branch.isDefault == true){
                 ajaxCnt--; continue;
             }
             $.ajax({
